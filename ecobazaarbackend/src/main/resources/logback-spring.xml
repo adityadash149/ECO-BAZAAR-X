@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Console appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Application specific logging -->
+    <logger name="com.ecobazaar.backend" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <!-- Reduce Spring framework logging -->
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.springframework.web" level="WARN" />
+    <logger name="org.springframework.security" level="WARN" />
+    <logger name="org.springframework.boot" level="INFO" />
+    
+    <!-- Reduce Hibernate logging -->
+    <logger name="org.hibernate" level="WARN" />
+    <logger name="org.hibernate.SQL" level="WARN" />
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="WARN" />
+    
+    <!-- Reduce database connection logging -->
+    <logger name="com.zaxxer.hikari" level="WARN" />
+    <logger name="org.apache.tomcat" level="WARN" />
+    
+    <!-- Root logger -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

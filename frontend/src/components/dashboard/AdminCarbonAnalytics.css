@@ -1,0 +1,328 @@
+/* Admin Carbon Analytics Styles */
+.admin-carbon-analytics-container {
+  padding: 0;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.admin-carbon-analytics-header {
+  background: white;
+  color: #1f2937;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+.admin-carbon-analytics-header h2 {
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.admin-carbon-analytics-header p {
+  color: #6b7280;
+}
+
+/* Key Metrics Cards */
+.admin-carbon-analytics-container .grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.admin-carbon-analytics-container .grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.admin-carbon-analytics-container .grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-carbon-analytics-container .grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.admin-carbon-analytics-container .grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .admin-carbon-analytics-container .md\\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .admin-carbon-analytics-container .lg\\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .admin-carbon-analytics-container .lg\\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  
+  .admin-carbon-analytics-container .lg\\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Chart Containers */
+.admin-carbon-analytics-container .bg-white {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: 1.5rem;
+}
+
+/* Insights Cards */
+.admin-carbon-analytics-container .bg-green-50 {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.admin-carbon-analytics-container .bg-blue-50 {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.admin-carbon-analytics-container .bg-orange-50 {
+  background-color: #fff7ed;
+  border-color: #fed7aa;
+}
+
+.admin-carbon-analytics-container .border-green-500 {
+  border-color: #10b981;
+}
+
+.admin-carbon-analytics-container .border-blue-500 {
+  border-color: #3b82f6;
+}
+
+.admin-carbon-analytics-container .border-orange-500 {
+  border-color: #f59e0b;
+}
+
+/* Table Styles */
+.admin-carbon-analytics-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-carbon-analytics-container th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #111827;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.admin-carbon-analytics-container td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.admin-carbon-analytics-container tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Progress Bars */
+.admin-carbon-analytics-container .w-16 {
+  width: 4rem;
+}
+
+.admin-carbon-analytics-container .bg-gray-200 {
+  background-color: #e5e7eb;
+}
+
+.admin-carbon-analytics-container .rounded-full {
+  border-radius: 9999px;
+}
+
+.admin-carbon-analytics-container .h-2 {
+  height: 0.5rem;
+}
+
+.admin-carbon-analytics-container .bg-green-500 {
+  background-color: #10b981;
+}
+
+.admin-carbon-analytics-container .bg-yellow-500 {
+  background-color: #eab308;
+}
+
+.admin-carbon-analytics-container .bg-red-500 {
+  background-color: #ef4444;
+}
+
+/* Status Badges */
+.admin-carbon-analytics-container .inline-flex {
+  display: inline-flex;
+}
+
+.admin-carbon-analytics-container .items-center {
+  align-items: center;
+}
+
+.admin-carbon-analytics-container .px-2-5 {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+
+.admin-carbon-analytics-container .py-0-5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+
+.admin-carbon-analytics-container .rounded-full {
+  border-radius: 9999px;
+}
+
+.admin-carbon-analytics-container .text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.admin-carbon-analytics-container .font-medium {
+  font-weight: 500;
+}
+
+.admin-carbon-analytics-container .bg-green-100 {
+  background-color: #dcfce7;
+}
+
+.admin-carbon-analytics-container .text-green-800 {
+  color: #166534;
+}
+
+.admin-carbon-analytics-container .bg-yellow-100 {
+  background-color: #fef3c7;
+}
+
+.admin-carbon-analytics-container .text-yellow-800 {
+  color: #92400e;
+}
+
+.admin-carbon-analytics-container .bg-red-100 {
+  background-color: #fee2e2;
+}
+
+.admin-carbon-analytics-container .text-red-800 {
+  color: #991b1b;
+}
+
+.admin-carbon-analytics-container .bg-gray-100 {
+  background-color: #f3f4f6;
+}
+
+.admin-carbon-analytics-container .text-gray-800 {
+  color: #374151;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-carbon-analytics-container .grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .admin-carbon-analytics-container .lg\\:grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .admin-carbon-analytics-container .lg\\:grid-cols-3 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .admin-carbon-analytics-container .grid-cols-4 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  
+  .admin-carbon-analytics-container .grid-cols-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+/* Animation for loading states */
+.admin-carbon-analytics-container .animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effects */
+.admin-carbon-analytics-container .hover\\:bg-green-700:hover {
+  background-color: #047857;
+}
+
+.admin-carbon-analytics-container .hover\\:bg-gray-50:hover {
+  background-color: #f9fafb;
+}
+
+/* Focus states */
+.admin-carbon-analytics-container .focus\\:ring-2:focus {
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
+}
+
+.admin-carbon-analytics-container .focus\\:ring-green-500:focus {
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
+}
+
+.admin-carbon-analytics-container .focus\\:border-transparent:focus {
+  border-color: transparent;
+}
+
+/* Transition effects */
+.admin-carbon-analytics-container .transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Gradient backgrounds */
+.admin-carbon-analytics-container .bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.admin-carbon-analytics-container .from-green-50 {
+  --tw-gradient-from: #f0fdf4;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(240, 253, 244, 0));
+}
+
+.admin-carbon-analytics-container .to-green-100 {
+  --tw-gradient-to: #dcfce7;
+}
+
+.admin-carbon-analytics-container .from-blue-50 {
+  --tw-gradient-from: #eff6ff;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(239, 246, 255, 0));
+}
+
+.admin-carbon-analytics-container .to-blue-100 {
+  --tw-gradient-to: #dbeafe;
+}
+
+.admin-carbon-analytics-container .from-purple-50 {
+  --tw-gradient-from: #faf5ff;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(250, 245, 255, 0));
+}
+
+.admin-carbon-analytics-container .to-purple-100 {
+  --tw-gradient-to: #f3e8ff;
+}
+
+.admin-carbon-analytics-container .from-orange-50 {
+  --tw-gradient-from: #fff7ed;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 247, 237, 0));
+}
+
+.admin-carbon-analytics-container .to-orange-100 {
+  --tw-gradient-to: #fed7aa;
+}
