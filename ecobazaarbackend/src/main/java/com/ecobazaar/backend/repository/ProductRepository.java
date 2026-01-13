@@ -23,7 +23,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     // Admin specific queries
     List<Product> findBySellerId(Long sellerId);
     Long countByCategoryId(Long categoryId);
-    
+    List<Product> findByIsApprovedFalse();
+
     @Query("SELECT SUM(p.carbonScore) FROM Product p WHERE p.isActive = true")
     BigDecimal sumTotalCarbonScore();
     

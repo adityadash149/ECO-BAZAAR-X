@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { FaTrash, FaArrowRight } from 'react-icons/fa';
+import { FaTrash, FaArrowRight, FaLeaf } from 'react-icons/fa';
 
 const API_BASE_URL = import.meta.env?.VITE_API_URL || 'http://localhost:8081/api';
 
@@ -32,11 +32,17 @@ const Cart = () => {
     try {
       setLoading(true);
       setError('');
-      const response = await axios.get(`${API_BASE_URL}/cart/user/${resolvedUserId}`);
+      const response = await axios.get(`${API_BASE_URL}/cart/details/${resolvedUserId}`);
       setCartItems(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       console.error('Error fetching cart:', err);
-      setError('Unable to load your cart. Please try again.');
+      try {
+        const fallbackRes = await axios.get(`${API_BASE_URL}/cart/user/${resolvedUserId}`);
+        setCartItems(Array.isArray(fallbackRes.data) ? fallbackRes.data : []);
+      } catch (fallbackError) {
+        console.error('Fallback cart fetch failed:', fallbackError);
+        setError('Unable to load your cart. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -64,6 +70,14 @@ const Cart = () => {
   };
 
   const subtotal = cartItems.reduce((acc, item) => acc + Number(item.price || 0) * Number(item.quantity || 0), 0);
+  const totalCarbonSaved = cartItems.reduce(
+    (acc, item) => acc + Number(item.carbonSaved || 0) * Number(item.quantity || 0),
+    0
+  );
+  const totalEcoPoints = cartItems.reduce(
+    (acc, item) => acc + Number(item.ecoPoints || 0) * Number(item.quantity || 0),
+    0
+  );
 
   if (loading) {
     return (
@@ -113,7 +127,11 @@ const Cart = () => {
 
                   <div className="flex-1 text-center sm:text-left">
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{item.name}</h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">Quantity: {item.quantity}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">Quantity: {item.quantity}</p>
+                    <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-green-600 dark:text-green-400">
+                      <FaLeaf />
+                      <span>Saves {Number(item.carbonSaved || 0).toFixed(2)} kg CO₂ · +{Number(item.ecoPoints || 0)} pts</span>
+                    </div>
                   </div>
 
                   <div className="text-right">
@@ -141,19 +159,23 @@ const Cart = () => {
                   <span>Subtotal</span>
                   <span>₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
-                <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                  <span>Shipping</span>
-                  <span className="text-green-600 dark:text-green-400">Free</span>
+                <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-medium">
+                  <span className="flex items-center gap-1"><FaLeaf size={12} /> Carbon Saved</span>
+                  <span>{totalCarbonSaved.toFixed(2)} kg</span>
                 </div>
-                <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white pt-2">
+                <div className="flex justify-between text-blue-600 dark:text-blue-400 font-medium">
+                  <span>Eco Points Earned</span>
+                  <span>+{totalEcoPoints}</span>
+                </div>
+                <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white pt-2 border-t border-gray-100 dark:border-gray-700">
                   <span>Total</span>
                   <span>₹{subtotal.toLocaleString('en-IN')}</span>
                 </div>
               </div>
 
-              <button className="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
+              <Link to="/checkout" className="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2">
                 Checkout <FaArrowRight />
-              </button>
+              </Link>
             </div>
           </div>
         </div>

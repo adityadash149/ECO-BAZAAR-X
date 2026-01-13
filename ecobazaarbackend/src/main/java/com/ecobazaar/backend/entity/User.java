@@ -49,6 +49,9 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive = true;
     
+    @Column(nullable = false)
+    private boolean isVerified = true;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     
@@ -162,6 +165,14 @@ public class User {
 		this.isActive = isActive;
 	}
 
+	public boolean isVerified() {
+		return isVerified;
+	}
+
+	public void setVerified(boolean verified) {
+		this.isVerified = verified;
+	}
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -180,7 +191,7 @@ public class User {
 
 
 	public User(Long id, String username, String email, String phone, String address, String password, String firstName, String lastName, Role role,
-			Integer ecoPoints, Double carbonSaved, Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt) {
+			Integer ecoPoints, Double carbonSaved, Boolean isActive, boolean isVerified, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -194,6 +205,7 @@ public class User {
 		this.ecoPoints = ecoPoints;
 		this.carbonSaved = carbonSaved;
 		this.isActive = isActive;
+		this.isVerified = isVerified;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}

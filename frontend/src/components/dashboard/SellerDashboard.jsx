@@ -26,11 +26,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
   AreaChart,
   Area
 } from 'recharts';
@@ -57,7 +53,6 @@ const SellerDashboard = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [salesData, setSalesData] = useState([]);
   const [stockData, setStockData] = useState([]);
-  const [ecoData, setEcoData] = useState([]);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -135,13 +130,6 @@ const SellerDashboard = () => {
       });
     setStockData(sortedStock);
 
-    const ecoCount = productsData.filter((p) => p.ecoFriendly).length;
-    const standardCount = productsData.length - ecoCount;
-    setEcoData([
-      { name: 'Eco-Friendly', value: ecoCount },
-      { name: 'Standard', value: standardCount }
-    ]);
-
     const last7Days = [...Array(7)].map((_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - i);
@@ -175,13 +163,55 @@ const SellerDashboard = () => {
     }
   };
 
+  const buildProductPayload = (includeMedia = true) => {
+    const payload = {
+      name: formData.name,
+      description: formData.description,
+      price: formData.price,
+      categoryId: formData.categoryId,
+      stockQuantity: formData.stockQuantity,
+      weight: formData.weight,
+      shippingDistance: formData.shippingDistance,
+      carbonFootprintScore: formData.carbonFootprintScore,
+      ecoFriendly: formData.ecoFriendly
+    };
+
+    if (formData.imageUrl && formData.imageUrl.trim().length > 0) {
+      payload.imageUrl = formData.imageUrl.trim();
+    }
+
+    if (includeMedia && formData.image instanceof File) {
+      payload.imageFile = formData.image;
+    }
+
+    return payload;
+  };
+
+  const uploadImageToBackend = async (productId, file) => {
+    await sellerAPI.uploadProductImage(productId, file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (editingProduct) {
-        await sellerAPI.updateProduct(editingProduct.id, formData);
+        await sellerAPI.updateProduct(editingProduct.id, buildProductPayload(true));
+        alert('Product Updated Successfully!');
       } else {
-        await sellerAPI.addProduct(formData);
+        const response = await sellerAPI.addProduct(buildProductPayload(false));
+        const newProductId = response?.data?.id || response?.data?.productId || response?.data?.product?.id;
+
+        console.log('Product Created. ID is:', newProductId);
+
+        if (!newProductId) {
+          throw new Error('Backend did not return a Product ID');
+        }
+
+        if (formData.image instanceof File) {
+          await uploadImageToBackend(newProductId, formData.image);
+        }
+
+        alert('Product Published Successfully!');
       }
       setShowAddModal(false);
       setEditingProduct(null);
@@ -241,8 +271,6 @@ const SellerDashboard = () => {
   const filteredProducts = products.filter((product) =>
     product.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const COLORS = ['#10B981', '#6B7280', '#F59E0B', '#3B82F6'];
 
   if (loading) {
     return (
@@ -405,26 +433,6 @@ const SellerDashboard = () => {
                       <Tooltip contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', borderRadius: '8px', color: '#fff' }} cursor={{ fill: 'transparent' }} />
                       <Bar dataKey="stock" fill="#3B82F6" radius={[0, 4, 4, 0]} barSize={20} />
                     </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 lg:col-span-2">
-                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
-                  <Leaf size={20} className="text-green-500" />
-                  Inventory Sustainability Impact
-                </h3>
-                <div className="h-64 flex items-center justify-center">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie data={ecoData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">
-                        {ecoData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', borderRadius: '8px', color: '#fff' }} />
-                      <Legend verticalAlign="middle" align="right" layout="vertical" iconType="circle" />
-                    </PieChart>
                   </ResponsiveContainer>
                 </div>
               </div>

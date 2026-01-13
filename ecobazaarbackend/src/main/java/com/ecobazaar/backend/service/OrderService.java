@@ -34,9 +34,6 @@ public class OrderService {
     @Autowired
     private CustomerProfileRepository customerProfileRepository;
     
-    @Autowired(required = false)
-    private EmailService emailService;
-    
     public Order createOrderFromCart(Long userId, String shippingAddress, String paymentMethod, String notes) {
         User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found"));
@@ -91,16 +88,6 @@ public class OrderService {
         cartRepository.deleteAll(cartItems);
         
         Order savedOrder = orderRepository.save(order);
-        
-        // Send order confirmation email
-        if (emailService != null) {
-            try {
-                emailService.sendOrderConfirmationEmail(savedOrder);
-            } catch (Exception e) {
-                System.err.println("Failed to send order confirmation email: " + e.getMessage());
-                // Don't fail order creation if email fails
-            }
-        }
         
         return savedOrder;
     }
@@ -269,6 +256,9 @@ public class OrderService {
             BigDecimal itemCarbonScore = product.getCarbonScore()
                 .multiply(BigDecimal.valueOf(quantity));
             totalCarbonScore = totalCarbonScore.add(itemCarbonScore);
+
+            cartRepository.findByUserIdAndProductId(userId, productId)
+                .ifPresent(cartRepository::delete);
         }
         
         order.setTotalPrice(totalPrice);
@@ -280,16 +270,6 @@ public class OrderService {
         // Deduct eco-points from customer profile if used
         if (ecoPointsUsed != null && ecoPointsUsed > 0) {
             deductEcoPoints(userId, ecoPointsUsed);
-        }
-        
-        // Send order confirmation email
-        if (emailService != null) {
-            try {
-                emailService.sendOrderConfirmationEmail(savedOrder);
-            } catch (Exception e) {
-                System.err.println("Failed to send order confirmation email: " + e.getMessage());
-                // Don't fail order creation if email fails
-            }
         }
         
         return savedOrder;

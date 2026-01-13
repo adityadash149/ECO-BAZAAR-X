@@ -59,8 +59,8 @@ const Login = ({ onSwitchToRegister, onLoginSuccess }) => {
       setTimeout(() => {
         const role = response.data.role.toLowerCase();
         if (role === 'customer') {
-          // Redirect customers to home page
-          window.location.href = '/';
+          // Redirect customers to marketplace page
+          window.location.href = '/products';
         } else {
           // Redirect admin and seller to their dashboards
           window.location.href = `/${role}/dashboard`;

@@ -30,6 +30,11 @@ public class CartController {
         return ResponseEntity.ok(cartService.getUserCartDetails(userId));
     }
 
+    @GetMapping("/details/{userId}")
+    public ResponseEntity<List<CartItemDto>> getCartDetails(@PathVariable Long userId) {
+        return ResponseEntity.ok(cartService.getUserCartDetails(userId));
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<List<Cart>> getCartRaw(@PathVariable Long userId) {
         return ResponseEntity.ok(cartService.getCartItems(userId));

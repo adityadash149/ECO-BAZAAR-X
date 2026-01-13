@@ -38,7 +38,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="h-screen w-full relative bg-[#f8faf9] dark:bg-[#041d16] text-slate-900 dark:text-emerald-50 flex items-center justify-center p-4 overflow-hidden transition-colors">
+    <div className="min-h-screen w-full relative bg-[#f8faf9] dark:bg-[#041d16] text-slate-900 dark:text-emerald-50 flex items-center justify-center p-4 overflow-x-hidden transition-colors">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/50 via-transparent to-emerald-100/30 dark:from-[#041d16] dark:via-[#05241d] dark:to-[#03130f]" />
         <div className="absolute -top-32 -right-24 w-64 h-64 rounded-full bg-emerald-200/20 blur-3xl dark:bg-emerald-500/10" />
@@ -77,7 +77,7 @@ const Auth = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full max-w-5xl h-[85vh] max-h-[680px] bg-white dark:bg-[#062d23] rounded-[2rem] border border-emerald-50 dark:border-emerald-900/20 shadow-[0_30px_90px_rgba(15,118,110,0.15)] dark:shadow-[0_40px_120px_rgba(0,0,0,0.75)] overflow-hidden grid lg:grid-cols-2"
+        className="relative z-10 w-full max-w-5xl min-h-[85vh] bg-white dark:bg-[#062d23] rounded-[2rem] border border-emerald-50 dark:border-emerald-900/20 shadow-[0_30px_90px_rgba(15,118,110,0.15)] dark:shadow-[0_40px_120px_rgba(0,0,0,0.75)] overflow-hidden grid lg:grid-cols-2"
       >
         <div className="bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 p-10 text-white hidden lg:flex flex-col justify-between">
           <div className="flex items-center gap-3 mb-8">
@@ -99,7 +99,7 @@ const Auth = () => {
           </div>
         </div>
 
-        <div className="p-8 lg:p-12 flex flex-col justify-center bg-white dark:bg-[#062d23] overflow-y-auto">
+        <div className="p-8 lg:p-12 flex flex-col justify-center bg-white dark:bg-[#062d23]">
           <div className="max-w-sm mx-auto w-full">
             <AnimatePresence mode="wait">
               {isLogin ? (

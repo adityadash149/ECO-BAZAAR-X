@@ -3,6 +3,8 @@ package com.ecobazaar.backend.controller;
 import com.ecobazaar.backend.dto.*;
 import com.ecobazaar.backend.entity.Category;
 import com.ecobazaar.backend.entity.Role;
+import com.ecobazaar.backend.entity.User;
+import com.ecobazaar.backend.entity.Product;
 import com.ecobazaar.backend.service.AdminService;
 import com.ecobazaar.backend.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -222,5 +224,41 @@ public class AdminController {
     public ResponseEntity<String> markAllNotificationsAsRead(@PathVariable Long userId) {
         notificationService.markAllAsRead(userId);
         return ResponseEntity.ok("All notifications marked as read");
+    }
+
+    // --- Admin Approval Endpoints ---
+    @GetMapping("/pending-admins")
+    public ResponseEntity<List<User>> getPendingAdmins() {
+        return ResponseEntity.ok(adminService.getPendingAdmins());
+    }
+
+    @PutMapping("/approve-admin/{userId}")
+    public ResponseEntity<String> approveAdmin(@PathVariable Long userId) {
+        adminService.approveAdmin(userId);
+        return ResponseEntity.ok("Admin approved successfully");
+    }
+
+    @DeleteMapping("/reject-user/{userId}")
+    public ResponseEntity<String> rejectUser(@PathVariable Long userId) {
+        adminService.rejectUser(userId);
+        return ResponseEntity.ok("User rejected/deleted");
+    }
+
+    // --- Product Approval Endpoints ---
+    @GetMapping("/pending-products")
+    public ResponseEntity<List<ProductDto>> getPendingProducts() {
+        return ResponseEntity.ok(adminService.getPendingProducts());
+    }
+
+    @PutMapping("/approve-product/{productId}")
+    public ResponseEntity<String> approveProduct(@PathVariable Long productId) {
+        adminService.approveProduct(productId, null);
+        return ResponseEntity.ok("Product approved successfully");
+    }
+
+    @DeleteMapping("/reject-product/{productId}")
+    public ResponseEntity<String> rejectProduct(@PathVariable Long productId) {
+        adminService.rejectProduct(productId, "Rejected by admin");
+        return ResponseEntity.ok("Product rejected");
     }
 }

@@ -88,8 +88,16 @@ public class AuthService {
         user.setPassword(request.getPassword()); // Store password as plain text
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        user.setRole(Role.valueOf(request.getRole().toUpperCase()));
-        
+        Role role = Role.valueOf(request.getRole().toUpperCase());
+        user.setRole(role);
+
+        if (role == Role.ADMIN) {
+            long adminCount = userRepository.countByRole(Role.ADMIN);
+            user.setVerified(adminCount == 0);
+        } else {
+            user.setVerified(true);
+        }
+
         userRepository.save(user);
 
         // Ensure a profile exists for the new user

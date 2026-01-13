@@ -12,9 +12,9 @@ import {
   User, 
   Loader2, 
   CheckCircle,
-  Sparkles,
   ShoppingBag,
-  Store
+  Store,
+  Shield
 } from 'lucide-react';
 import { authAPI } from '../../services/api';
 
@@ -30,7 +30,7 @@ const registerSchema = yup.object({
   confirmPassword: yup.string()
     .oneOf([yup.ref('password'), null], 'Passwords must match')
     .required('Please confirm your password'),
-  role: yup.string().required('Please select an account type').oneOf(['CUSTOMER', 'SELLER'], 'Invalid account type')
+  role: yup.string().required('Please select an account type').oneOf(['CUSTOMER', 'SELLER', 'ADMIN'], 'Invalid account type')
 }).required();
 
 const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType = 'CUSTOMER' }) => {
@@ -60,7 +60,7 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
     setSuccess('');
 
     try {
-      const response = await authAPI.register(data);
+      await authAPI.register(data);
       setSuccess('Account created successfully! Please log in to continue.');
       
       // Call the success callback to redirect to login
@@ -102,51 +102,17 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
           <Leaf size={28} />
         </motion.div>
         
-        <motion.div
-          className="absolute bottom-6 left-6 text-emerald-400 opacity-30"
-          animate={{ 
-            rotate: [0, -360],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ 
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
-        >
-          <Sparkles size={24} />
-        </motion.div>
-
         <div className="relative z-10">
-          {/* Header */}
+          {/* Simplified header */}
           <div className="text-center mb-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-6 shadow-xl"
+              className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full shadow-lg"
             >
-              <Leaf size={32} className="text-white" />
+              <Leaf size={28} className="text-white" />
             </motion.div>
-            
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-3xl font-bold text-gray-800 mb-3"
-            >
-              Join EcoBazaarX
-            </motion.h2>
-            
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-gray-600 text-lg"
-            >
-              Create your account and start your sustainable shopping journey
-            </motion.p>
           </div>
 
           {/* Success/Error Messages */}
@@ -198,13 +164,9 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
                   />
                 </div>
                 {errors.firstName && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-2 text-sm text-red-600"
-                  >
+                  <p className="mt-2 text-sm text-red-600">
                     {errors.firstName.message}
-                  </motion.p>
+                  </p>
                 )}
               </motion.div>
 
@@ -228,13 +190,9 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
                   />
                 </div>
                 {errors.lastName && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-2 text-sm text-red-600"
-                  >
+                  <p className="mt-2 text-sm text-red-600">
                     {errors.lastName.message}
-                  </motion.p>
+                  </p>
                 )}
               </motion.div>
             </div>
@@ -260,13 +218,9 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
                 />
               </div>
               {errors.username && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="mt-2 text-sm text-red-600"
-                >
+                <p className="mt-2 text-sm text-red-600">
                   {errors.username.message}
-                </motion.p>
+                </p>
               )}
             </motion.div>
 
@@ -291,13 +245,9 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
                 />
               </div>
               {errors.email && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="mt-2 text-sm text-red-600"
-                >
+                <p className="mt-2 text-sm text-red-600">
                   {errors.email.message}
-                </motion.p>
+                </p>
               )}
             </motion.div>
 
@@ -330,13 +280,9 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
                   </button>
                 </div>
                 {errors.password && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-2 text-sm text-red-600"
-                  >
+                  <p className="mt-2 text-sm text-red-600">
                     {errors.password.message}
-                  </motion.p>
+                  </p>
                 )}
               </motion.div>
 
@@ -367,13 +313,9 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
                   </button>
                 </div>
                 {errors.confirmPassword && (
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="mt-2 text-sm text-red-600"
-                  >
+                  <p className="mt-2 text-sm text-red-600">
                     {errors.confirmPassword.message}
-                  </motion.p>
+                  </p>
                 )}
               </motion.div>
             </div>
@@ -387,67 +329,74 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
               <label className="block text-sm font-semibold text-gray-700 mb-4">
                 Account Type
               </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <label className={`relative cursor-pointer group transition-all duration-200 ${selectedRole === 'CUSTOMER' ? 'ring-2 ring-green-500 ring-offset-2' : ''}`}>
-                  <input
-                    type="radio"
-                    value="CUSTOMER"
-                    {...register('role')}
-                    className="sr-only"
-                  />
-                  <div className={`p-5 rounded-xl border-2 transition-all duration-200 ${
-                    selectedRole === 'CUSTOMER' 
-                      ? 'border-green-500 bg-green-50 shadow-lg' 
+                  <input type="radio" value="CUSTOMER" {...register('role')} className="sr-only" />
+                  <div className={`p-6 rounded-2xl border-2 h-full flex flex-col justify-center transition-all duration-200 ${
+                    selectedRole === 'CUSTOMER'
+                      ? 'border-green-500 bg-green-50 shadow-md'
                       : 'border-gray-200 hover:border-green-300 hover:bg-gray-50'
                   }`}>
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+                    <div className="flex flex-col items-center text-center space-y-3">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 ${
                         selectedRole === 'CUSTOMER' ? 'bg-green-500 shadow-lg' : 'bg-gray-200'
                       }`}>
-                        <ShoppingBag size={18} className={selectedRole === 'CUSTOMER' ? 'text-white' : 'text-gray-500'} />
+                        <ShoppingBag size={20} className={selectedRole === 'CUSTOMER' ? 'text-white' : 'text-gray-500'} />
                       </div>
                       <div>
                         <div className="font-semibold text-gray-900 text-lg">Customer</div>
-                        <div className="text-sm text-gray-600">Shop eco-friendly products</div>
+                        <div className="text-xs text-gray-500 mt-1">Shop eco-friendly</div>
                       </div>
                     </div>
                   </div>
                 </label>
 
                 <label className={`relative cursor-pointer group transition-all duration-200 ${selectedRole === 'SELLER' ? 'ring-2 ring-green-500 ring-offset-2' : ''}`}>
-                  <input
-                    type="radio"
-                    value="SELLER"
-                    {...register('role')}
-                    className="sr-only"
-                  />
-                  <div className={`p-5 rounded-xl border-2 transition-all duration-200 ${
-                    selectedRole === 'SELLER' 
-                      ? 'border-green-500 bg-green-50 shadow-lg' 
+                  <input type="radio" value="SELLER" {...register('role')} className="sr-only" />
+                  <div className={`p-6 rounded-2xl border-2 h-full flex flex-col justify-center transition-all duration-200 ${
+                    selectedRole === 'SELLER'
+                      ? 'border-green-500 bg-green-50 shadow-md'
                       : 'border-gray-200 hover:border-green-300 hover:bg-gray-50'
                   }`}>
-                    <div className="flex items-center space-x-4">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
+                    <div className="flex flex-col items-center text-center space-y-3">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 ${
                         selectedRole === 'SELLER' ? 'bg-green-500 shadow-lg' : 'bg-gray-200'
                       }`}>
-                        <Store size={18} className={selectedRole === 'SELLER' ? 'text-white' : 'text-gray-500'} />
+                        <Store size={20} className={selectedRole === 'SELLER' ? 'text-white' : 'text-gray-500'} />
                       </div>
                       <div>
                         <div className="font-semibold text-gray-900 text-lg">Seller</div>
-                        <div className="text-sm text-gray-600">Sell your eco products</div>
+                        <div className="text-xs text-gray-500 mt-1">Sell your products</div>
+                      </div>
+                    </div>
+                  </div>
+                </label>
+
+                <label className={`relative cursor-pointer group transition-all duration-200 ${selectedRole === 'ADMIN' ? 'ring-2 ring-red-500 ring-offset-2' : ''}`}>
+                  <input type="radio" value="ADMIN" {...register('role')} className="sr-only" />
+                  <div className={`p-6 rounded-2xl border-2 h-full flex flex-col justify-center transition-all duration-200 ${
+                    selectedRole === 'ADMIN'
+                      ? 'border-red-500 bg-red-50 shadow-md'
+                      : 'border-gray-200 hover:border-red-200 hover:bg-gray-50'
+                  }`}>
+                    <div className="flex flex-col items-center text-center space-y-3">
+                      <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 ${
+                        selectedRole === 'ADMIN' ? 'bg-red-500 shadow-lg' : 'bg-gray-200'
+                      }`}>
+                        <Shield size={20} className={selectedRole === 'ADMIN' ? 'text-white' : 'text-gray-500'} />
+                      </div>
+                      <div>
+                        <div className="font-semibold text-gray-900 text-lg">Admin</div>
+                        <div className="text-xs text-gray-500 mt-1">Manage platform</div>
                       </div>
                     </div>
                   </div>
                 </label>
               </div>
               {errors.role && (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="mt-2 text-sm text-red-600"
-                >
+                <p className="mt-2 text-sm text-red-600">
                   {errors.role.message}
-                </motion.p>
+                </p>
               )}
             </motion.div>
 
@@ -492,27 +441,6 @@ const Register = ({ onSwitchToLogin, onRegistrationSuccess, defaultAccountType =
             </p>
           </motion.div>
 
-          {/* Eco-friendly Message */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
-            className="mt-6 p-5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200"
-          >
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <Leaf size={18} className="text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-green-800">
-                  Join the Green Revolution
-                </p>
-                <p className="text-xs text-green-600">
-                  Every new account helps us build a more sustainable future
-                </p>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </div>
     </motion.div>

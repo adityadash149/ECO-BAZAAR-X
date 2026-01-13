@@ -21,7 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRoleAndIsActiveTrue(Role role);
     Long countByRole(Role role);
     Long countByRoleAndIsActiveTrue(Role role);
-    
+    List<User> findByRoleAndIsVerifiedFalse(Role role);
+
     @Query("SELECT u FROM User u WHERE u.role = :role ORDER BY u.createdAt DESC")
     List<User> findByRoleOrderByCreatedAtDesc(@Param("role") Role role);
 }

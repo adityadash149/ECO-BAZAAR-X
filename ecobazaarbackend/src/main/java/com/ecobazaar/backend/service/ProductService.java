@@ -58,7 +58,8 @@ public class ProductService {
     }
 
     public List<Product> getProductsBySeller(Long sellerId) {
-        return productRepository.findBySellerIdAndIsActiveTrue(sellerId);
+        // Sellers should see ALL their products (Active and Pending) in their dashboard
+        return productRepository.findBySellerId(sellerId);
     }
 
     public Product createProduct(Product product, Long sellerId) {
@@ -67,7 +68,11 @@ public class ProductService {
         
         product.setSeller(seller);
         
-        // Calculate carbon score
+        product.setIsActive(true);
+        if (product.getImageUrl() == null || product.getImageUrl().trim().isEmpty()) {
+            product.setImageUrl("https://placehold.co/600x400?text=No+Image");
+        }
+
         BigDecimal carbonScore = carbonCalculatorService.calculateCarbonScore(
             product.getWeightKg(),
             product.getShippingDistanceKm(),
@@ -91,6 +96,9 @@ public class ProductService {
         product.setImageUrl(productDetails.getImageUrl());
         product.setIsEcoFriendly(productDetails.getIsEcoFriendly());
         
+        // Note: We do NOT update 'isActive' here.
+        // This prevents sellers from activating their own products by editing them.
+
         // Recalculate carbon score
         BigDecimal carbonScore = carbonCalculatorService.calculateCarbonScore(
             product.getWeightKg(),

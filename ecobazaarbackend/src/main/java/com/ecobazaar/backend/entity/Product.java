@@ -59,8 +59,11 @@ public class Product {
     private Boolean isEcoFriendly = false;
     
     @Column(name = "is_active")
-    private Boolean isActive = true;
-    
+    private Boolean isActive = false;
+
+    @Column(nullable = false)
+    private boolean isApproved = false;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     
@@ -198,6 +201,14 @@ public class Product {
 		this.isActive = isActive;
 	}
 
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.isApproved = approved;
+    }
+
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -217,7 +228,7 @@ public class Product {
 
 	public Product(Long id, String name, String description, BigDecimal price, Category category, User seller,
 			BigDecimal weightKg, BigDecimal shippingDistanceKm, BigDecimal carbonScore, Integer stockQuantity,
-			String imageUrl, Integer ecoPoints, Double carbonReduction, Boolean isEcoFriendly, Boolean isActive, LocalDateTime createdAt,
+			String imageUrl, Integer ecoPoints, Double carbonReduction, Boolean isEcoFriendly, Boolean isActive, boolean isApproved, LocalDateTime createdAt,
 			LocalDateTime updatedAt) {
 		super();
 		this.id = id;
@@ -235,6 +246,7 @@ public class Product {
 		this.carbonReduction = carbonReduction;
 		this.isEcoFriendly = isEcoFriendly;
 		this.isActive = isActive;
+		this.isApproved = isApproved;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}

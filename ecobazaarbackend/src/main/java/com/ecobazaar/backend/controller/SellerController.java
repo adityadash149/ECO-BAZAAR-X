@@ -91,7 +91,7 @@ public class SellerController {
             product.setShippingDistanceKm(new java.math.BigDecimal(shippingDistance));
             product.setCarbonScore(new java.math.BigDecimal(carbonFootprintScore));
             product.setIsEcoFriendly(Boolean.parseBoolean(ecoFriendly));
-            
+
             // Handle category
             if (categoryId != null && !categoryId.isEmpty()) {
                 com.ecobazaar.backend.entity.Category category = new com.ecobazaar.backend.entity.Category();

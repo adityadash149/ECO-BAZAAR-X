@@ -662,6 +662,14 @@ export const sellerAPI = {
     });
   },
 
+  uploadProductImage: (id, imageFile) => {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    return api.put(`/seller/products/${id}/image`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+
   // Delete product
   deleteProduct: (id) => api.delete(`/seller/products/${id}`),
 

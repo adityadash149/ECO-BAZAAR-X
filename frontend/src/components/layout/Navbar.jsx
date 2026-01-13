@@ -6,7 +6,8 @@ import {
   X,
   Package,
   Home,
-  Info
+  Info,
+  ShoppingBag
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { authAPI } from '../../services/api';
@@ -126,16 +127,24 @@ const Navbar = () => {
         <div className="flex items-center gap-1.5 md:gap-2">
           <ThemeToggle />
 
-          {/* Cart */}
           {isAuthenticated && (
-            <Link to="/cart" className="relative px-3 py-2 font-bold text-slate-700 dark:text-emerald-50 hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors">
-              <span>Smart Cart</span>
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-2 bg-emerald-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                  {cartCount}
-                </span>
-              )}
-            </Link>
+            <>
+              <Link
+                to="/orders"
+                className="hidden sm:flex items-center gap-1 px-3 py-2 font-bold text-slate-700 dark:text-emerald-50 hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors"
+              >
+                <ShoppingBag size={18} />
+                <span>Orders</span>
+              </Link>
+              <Link to="/cart" className="relative px-3 py-2 font-bold text-slate-700 dark:text-emerald-50 hover:text-emerald-600 dark:hover:text-emerald-300 transition-colors">
+                <span>Smart Cart</span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-2 bg-emerald-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
+            </>
           )}
 
           {/* Auth/Profile */}
@@ -193,6 +202,16 @@ const Navbar = () => {
                 >
                   <Package className="w-5 h-5 mr-4 text-slate-400 dark:text-emerald-400" />
                   Marketplace
+                </Link>
+              )}
+              {isAuthenticated && (
+                <Link
+                  to="/orders"
+                  className="flex items-center px-5 py-4 text-slate-700 dark:text-emerald-100 hover:text-emerald-600 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded-lg transition-colors duration-200 font-medium text-base"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <ShoppingBag className="w-5 h-5 mr-4 text-slate-400 dark:text-emerald-400" />
+                  Orders
                 </Link>
               )}
               <Link 
